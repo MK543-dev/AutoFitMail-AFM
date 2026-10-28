@@ -1,0 +1,1 @@
+<span class='badge {% if a.status == "SENT" %}bg-primary{% elif a.status == "INTERVIEW" %}bg-interview{% elif a.status == "OFFER" %}bg-success{% elif a.status == "REJECTED" %}bg-danger{% elif a.status == "FAILED" %}bg-dark{% else %}bg-secondary{% endif %}'>{{ a.get_status_display }}</span>

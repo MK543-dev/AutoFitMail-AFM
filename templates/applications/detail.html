@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='card p-4'>
+  <h1 class='h4'>{{ app.jd.title }} at {{ app.jd.company }} {% include '_status_badge.html' with a=app %}</h1>
+  <dl class='row mt-3'>
+    <dt class='col-sm-3'>To</dt><dd class='col-sm-9'>{{ app.to_email }}</dd>
+    {% if app.cc %}<dt class='col-sm-3'>Cc</dt><dd class='col-sm-9'>{{ app.cc }}</dd>{% endif %}
+    <dt class='col-sm-3'>Subject</dt><dd class='col-sm-9'>{{ app.subject }}</dd>
+    <dt class='col-sm-3'>Sent</dt><dd class='col-sm-9'>{{ app.sent_at|date:'d M Y H:i'|default:'Not sent' }}</dd>
+    <dt class='col-sm-3'>Attachment sent</dt><dd class='col-sm-9'>{% if app.uploaded_resume %}{{ app.uploaded_resume_name|default:"Uploaded resume" }} (uploaded by you){% elif app.generated_resume.pdf_file %}<a href='{% url "resume_pdf" app.generated_resume.pk %}' target='_blank'>Open PDF</a>{% else %}Not attached{% endif %}</dd>
+  </dl>
+  <pre class='bg-light p-3 rounded'>{{ app.body }}</pre>
+  <form method='post' action='{% url "delete_application" app.pk %}' onsubmit='return confirm("Delete this application?")'>{% csrf_token %}
+    <button class='btn btn-outline-danger btn-sm'>Delete</button></form>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='row g-3'>
+  <div class='col-lg-6'><div class='card p-3'>
+    <form method='post'>{% csrf_token %}
+      <label>Name</label><input name='name' value='{{ gen.content.name }}'>
+      <label>Summary</label><textarea name='summary' rows='4'>{{ gen.content.summary }}</textarea>
+      <label>Skills (comma separated)</label><textarea name='skills' rows='2'>{{ gen.content.skills|join:', ' }}</textarea>
+      {% for job in gen.content.experience %}
+        <label>{{ job.title }} - {{ job.company }} (one bullet per line)</label>
+        <textarea name='exp_{{ forloop.counter0 }}' rows='5'>{% for b in job.bullets %}{{ b }}
+{% endfor %}</textarea>
+      {% endfor %}
+      <button class='btn btn-outline-primary mt-3'>Save and refresh PDF</button>
+    </form></div></div>
+  <div class='col-lg-6'>
+    {% if gen.pdf_file %}
+    <iframe src='{% url "resume_pdf" gen.pk %}' class='w-100 border rounded' style='height:80vh'></iframe>
+    {% else %}
+    <div class='border rounded p-4 text-muted'>No PDF yet for this draft. Edit the fields and press "Save and refresh PDF", or upload your own resume at the review step.</div>
+    {% endif %}
+    <div class='d-flex gap-2 mt-2'>
+      <a class='btn btn-outline-secondary' href='{% url "resume_pdf" gen.pk %}' download='resume.pdf'>Download PDF</a>
+      <a class='btn btn-primary ms-auto' href='{% url "prepare_application" gen.pk %}'>Continue to send</a></div>
+  </div>
+</div>
+{% endblock %}

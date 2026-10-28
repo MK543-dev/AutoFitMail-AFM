@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class='text-center py-5'>
+  <h1 class='display-5 fw-bold'>Apply smarter. One resume per job.</h1>
+  <p class='lead text-muted'>Upload your resume, paste the job description, and send a tailored application in one reviewed click.</p>
+  <a class='btn btn-primary btn-lg' href='{% url "signup" %}'>Get started free</a>
+</section>
+<div class='row g-3 text-center'>
+  <div class='col-md-3'><div class='card p-3'><b>1 Upload</b><br>PDF or DOCX</div></div>
+  <div class='col-md-3'><div class='card p-3'><b>2 Match</b><br>Score and skill gaps</div></div>
+  <div class='col-md-3'><div class='card p-3'><b>3 Tailor</b><br>Truthful, ATS-friendly PDF</div></div>
+  <div class='col-md-3'><div class='card p-3'><b>4 Send</b><br>Preview, confirm, track</div></div>
+</div>
+{% endblock %}

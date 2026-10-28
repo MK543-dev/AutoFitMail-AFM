@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset='utf-8'>
+<style>
+  @page { size: A4; margin: 12mm 14mm; }
+  body { font-family: "Times New Roman", Times, serif; font-size: 10.5pt; color: #111; line-height: 1.32; }
+  .head { text-align: center; margin-bottom: 6px; }
+  h1 { font-size: 19pt; margin: 0 0 2px; letter-spacing: 1px; color: #1F3A5F; text-transform: uppercase; }
+  .subtitle { font-size: 10pt; color: #333; margin-bottom: 3px; }
+  .contact { font-size: 9.5pt; color: #222; }
+  h2 { font-size: 11pt; margin: 11px 0 4px; color: #1F3A5F;
+       border-bottom: 0.8pt solid #1F3A5F; padding-bottom: 1px; }
+  p { margin: 2px 0 4px; }
+  ul { margin: 2px 0 5px 14px; padding: 0; }
+  li { margin: 1px 0; }
+  .dates { color: #444; }
+</style></head><body>
+<div class='head'>
+  <h1>{{ r.name }}</h1>
+  {% if r.headline %}<div class='subtitle'>{{ r.headline }}</div>{% endif %}
+  <div class='contact'>{{ r.contact.email }}{% if r.contact.phone %} | {{ r.contact.phone }}{% endif %}{% if r.contact.location %} | {{ r.contact.location }}{% endif %}{% for l in r.contact.links %} | {{ l }}{% endfor %}</div>
+</div>
+{% if r.summary %}<h2>Professional Summary</h2><p>{{ r.summary }}</p>{% endif %}
+{% if r.skills %}<h2>Technical Skills</h2><p>{{ r.skills|join:', ' }}</p>{% endif %}
+{% if r.experience %}<h2>Experience</h2>
+{% for j in r.experience %}<div><b>{{ j.title }}</b>{% if j.company %} — {{ j.company }}{% endif %}{% if j.dates %} <span class='dates'>· {{ j.dates }}</span>{% endif %}</div>
+<ul>{% for b in j.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endfor %}{% endif %}
+{% if r.projects %}<h2>Project Experience</h2>{% for p in r.projects %}<div><b>{{ p.name }}</b></div>
+<ul>{% for b in p.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endfor %}{% endif %}
+{% if r.education %}<h2>Education</h2>
+{% for e in r.education %}<div><b>{{ e.degree }}</b>{% if e.school %} — {{ e.school }}{% endif %}{% if e.dates %} <span class='dates'>· {{ e.dates }}</span>{% endif %}</div>{% endfor %}{% endif %}
+{% if r.certifications %}<h2>Certifications</h2><ul>{% for c in r.certifications %}<li>{{ c }}</li>{% endfor %}</ul>{% endif %}
+</body></html>

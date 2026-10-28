@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='card p-4'>
+  <h1 class='h4'>Privacy</h1>
+  <ul class='mb-0'>
+    <li>AFM stores your account email, uploaded resumes, pasted job descriptions, generated resumes, applications and their statuses — nothing else.</li>
+    <li>Resume and JD text are sent to the configured LLM provider (Anthropic Claude API) only when you press "Generate tailored resume".</li>
+    <li>Resume text, JD text and email bodies are never written to logs.</li>
+    <li>Uploads and generated PDFs are streamed only to the signed-in owner through login-protected views.</li>
+    <li>Limits: uploads are PDF/DOCX up to 5 MB; sending is capped at 20 emails per user per day.</li>
+    <li>"Delete my account and data" removes your account, uploaded files, analyses, generated PDFs and applications.</li>
+  </ul>
+</div>
+{% endblock %}

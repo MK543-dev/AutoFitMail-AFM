@@ -1,0 +1,1 @@
+{% for s in skills %}<span class='skill skill-{{ kind }}'>{{ s }}</span>{% empty %}<span class='text-muted'>{{ empty|default:"None" }}</span>{% endfor %}

@@ -1,0 +1,11 @@
+Django>=5.0,<5.2
+django-environ
+pdfplumber
+python-docx
+spacy>=3.7
+weasyprint
+xhtml2pdf
+anthropic
+whitenoise
+gunicorn
+psycopg2-binary

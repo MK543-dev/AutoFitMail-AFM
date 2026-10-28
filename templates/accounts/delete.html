@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='card p-4 border-danger'><h2 class='h4 text-danger'>Delete my account and data</h2>
+  <p>This permanently deletes your resumes, generated PDFs, analyses and applications.</p>
+  <form method='post'>{% csrf_token %}
+    <label>Confirm your password</label><input type='password' name='password' required>
+    <button class='btn btn-danger mt-3'>Delete everything</button></form>
+</div>
+{% endblock %}

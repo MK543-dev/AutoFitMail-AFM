@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class='h3'>My resumes</h1>
+<div class='card p-3'><table class='table align-middle mb-0'>
+  {% for r in resumes %}<tr><td><a href='{% url "resume_file" r.pk %}' target='_blank'>{{ r.title }}</a></td>
+    <td>{{ r.uploaded_at|date:'d M Y' }}</td>
+    <td><form method='post' action='{% url "resume_delete" r.pk %}'>{% csrf_token %}<button class='btn btn-sm btn-outline-danger'>Delete</button>
+</form></td></tr>
+  {% empty %}<tr><td class='text-muted'>No resumes yet.</td></tr>{% endfor %}
+</table>
+<a class='text-danger small mt-3' href='{% url "delete_account" %}'>Delete my account and all data</a></div>
+{% endblock %}

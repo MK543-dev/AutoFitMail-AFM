@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='card p-4'><h1 class='h4'>Review and send</h1>
+  {% if duplicate %}<div class='alert alert-warning'>You already sent an application for this job.</div>{% endif %}
+  {% if app.status == 'FAILED' %}<div class='alert alert-danger'>Last attempt failed: {{ app.error }}</div>{% endif %}
+  <form method='post' enctype='multipart/form-data'>{% csrf_token %}
+    {% include '_form_field.html' with field=form.to_email %}
+    {% include '_form_field.html' with field=form.cc %}
+    {% include '_form_field.html' with field=form.subject %}
+    {% include '_form_field.html' with field=form.body %}
+    {% include '_form_field.html' with field=form.reviewed %}
+    {% include '_form_field.html' with field=form.send_anyway %}
+    <p class='mt-3'>Attachment:
+      {% if app.uploaded_resume %}<b>{{ app.uploaded_resume_name|default:"Uploaded resume" }}</b> — your uploaded file will be sent.
+      {% elif app.generated_resume.pdf_file %}<a href='{% url "resume_pdf" app.generated_resume.pk %}' target='_blank'>Preview resume PDF</a> — the tailored resume.
+      {% else %}<span class='text-danger'>No resume attached yet — upload your own below.</span>{% endif %}
+    </p>
+    <div class='border rounded p-3 bg-light'>
+      <p class='mb-1 fw-semibold'>Send a different resume (optional)</p>
+      <p class='text-muted small mb-2'>Upload your own PDF or DOCX (max 5 MB); it will be sent instead of the generated PDF. Leave empty to send the generated one.</p>
+      {% include '_form_field.html' with field=form.uploaded_resume %}
+      {% if app.uploaded_resume %}{% include '_form_field.html' with field=form.remove_uploaded %}{% endif %}
+    </div>
+    <div class='d-flex gap-2 mt-3'>
+      {% if app.generated_resume.pdf_file %}
+      <a class='btn btn-outline-secondary' href='{% url "resume_edit" app.generated_resume.pk %}'>Back</a>
+      {% else %}
+      <a class='btn btn-outline-secondary' href='{% url "analysis_detail" app.generated_resume.analysis.pk %}'>Back</a>
+      {% endif %}
+      <button class='btn btn-primary ms-auto'>Confirm and send</button></div>
+  </form></div>
+{% endblock %}

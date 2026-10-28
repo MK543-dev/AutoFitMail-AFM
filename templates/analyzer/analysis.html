@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='card p-4 mb-3'>
+  <div class='d-flex flex-wrap gap-4 align-items-center'>
+    {% include '_score_ring.html' with score=analysis.score %}
+    <div><h1 class='h4 mb-1'>{{ analysis.jd.title }} at {{ analysis.jd.company }}</h1>
+      <div class='text-muted'>Required skills found: {{ analysis.required_skills|length }} | Matched: {{ analysis.matched_skills|length }}</div>
+      {% if not analysis.required_skills %}<div class='text-warning'>No known skills were found in this JD. Paste the full description.</div>{% endif %}
+    </div>
+  </div>
+</div>
+<div class='row g-3'>
+  <div class='col-md-6'><div class='card p-3 h-100'><h2 class='h6'>Matched skills</h2>
+    {% include '_skill_badges.html' with skills=analysis.matched_skills kind='ok' empty='None' %}</div>
+  </div>
+  <div class='col-md-6'><div class='card p-3 h-100'><h2 class='h6'>Missing skills</h2>
+    {% include '_skill_badges.html' with skills=analysis.missing_skills kind='miss' empty='No gaps found' %}</div>
+  </div>
+</div>
+{% if path %}<div class='card p-3 mt-3'><h2 class='h6'>Learning path</h2><ul class='mb-0'>
+  {% for item in path %}<li><b>{{ item.skill }}</b>:
+    {% for r in item.resources %}<a href='{{ r.url }}' target='_blank' rel='noopener'>{{ r.title }}</a>{% if not forloop.last %} | {% endif %}{% empty %}search a free beginner course{% endfor %}</li>{% endfor %}
+</ul>
+{% if optional %}<div class='text-muted small mt-2'>Nice-to-have gaps: {% for item in optional %}{{ item.skill }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>{% endif %}
+</div>{% endif %}
+<form method='post' action='{% url "generate_resume" analysis.pk %}' class='mt-4'>{% csrf_token %}
+  <button class='btn btn-primary btn-lg'>Generate tailored resume</button>
+  <span class='text-muted ms-2'>Takes about 20 seconds. Only facts from your resume are used.</span></form>
+<form method='post' action='{% url "prepare_custom" analysis.pk %}' class='mt-2'>{% csrf_token %}
+  <button class='btn btn-outline-secondary'>Apply with my own resume</button>
+  <span class='text-muted ms-2'>Skip tailoring — upload your preferred file on the next page.</span></form>
+{% endblock %}
